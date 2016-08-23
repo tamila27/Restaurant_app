@@ -2,8 +2,10 @@ package com.goit.gojavaonline;
 
 import com.goit.gojavaonline.controllers.DishController;
 import com.goit.gojavaonline.controllers.EmployeeController;
+import com.goit.gojavaonline.controllers.MenuController;
 import com.goit.gojavaonline.model.Dish;
 import com.goit.gojavaonline.model.Employee;
+import com.goit.gojavaonline.model.Menu;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class Main {
     private EmployeeController employeeController;
     private DishController dishController;
+    private MenuController menuController;
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
@@ -20,10 +23,34 @@ public class Main {
     }
 
     private void start() {
-        //getAllEmployee();
-        //insertEmployee();
+        getAllMenu();
+    }
 
-        getAllDishes();
+    private void getAllMenu() {
+        menuController.getAll().forEach(System.out::println);
+    }
+
+    private void findMenuByName(){
+        System.out.println(menuController.findByName("dinner"));
+    }
+
+    private void deleteDishFromMenu() {
+        menuController.deleteDishFromMenu(0, 2);
+    }
+
+    private void deleteMenu() {
+        menuController.deleteMenu(2);
+    }
+
+    private void insertMenuInDish() {
+        menuController.insertDishInMenu(0, 2);
+    }
+
+    private void insertMenu() {
+        Menu menu = new Menu();
+        menu.setId(2);
+        menu.setName("new_menu");
+        menuController.insertMenu(menu);
     }
 
     private void getAllDishes(){
@@ -81,5 +108,9 @@ public class Main {
 
     public void setDishController(DishController dishController) {
         this.dishController = dishController;
+    }
+
+    public void setMenuController(MenuController menuController) {
+        this.menuController = menuController;
     }
 }

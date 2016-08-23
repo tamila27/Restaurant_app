@@ -2,8 +2,10 @@ package com.goit.gojavaonline;
 
 import com.goit.gojavaonline.controllers.DishController;
 import com.goit.gojavaonline.controllers.EmployeeController;
+import com.goit.gojavaonline.controllers.MenuController;
 import com.goit.gojavaonline.model.JdbcDishDao;
 import com.goit.gojavaonline.model.JdbcEmployeeDao;
+import com.goit.gojavaonline.model.JdbcMenuDao;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -102,10 +104,27 @@ public class AppConfig {
     }
 
     @Bean
-    public Main main( EmployeeController employeeController, DishController dishController ){
+    public JdbcMenuDao menuDao(ComboPooledDataSource dataSource ) {
+        JdbcMenuDao jdbcMenuDao = new JdbcMenuDao();
+        jdbcMenuDao.setDataSource(dataSource);
+        return jdbcMenuDao;
+    }
+
+    @Bean
+    public MenuController menuController(JdbcMenuDao menuDao) {
+        MenuController menuController = new MenuController();
+        menuController.setMenuDao(menuDao);
+        return menuController;
+
+    }
+
+    @Bean
+    public Main main( EmployeeController employeeController, DishController dishController,
+                      MenuController menuController ){
         Main main = new Main();
         main.setEmployeeController(employeeController);
         main.setDishController(dishController);
+        main.setMenuController(menuController);
         return main;
     }
 

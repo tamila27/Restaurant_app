@@ -1,6 +1,8 @@
 package com.goit.gojavaonline;
 
+import com.goit.gojavaonline.controllers.DishController;
 import com.goit.gojavaonline.controllers.EmployeeController;
+import com.goit.gojavaonline.model.Dish;
 import com.goit.gojavaonline.model.Employee;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -9,6 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class Main {
     private EmployeeController employeeController;
+    private DishController dishController;
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
@@ -17,8 +20,41 @@ public class Main {
     }
 
     private void start() {
-        //employeeController.getAllEmployee().forEach(System.out::println);
-        //System.out.println(employeeController.getEmployeeByName("Ann"));
+        //getAllEmployee();
+        //insertEmployee();
+
+        getAllDishes();
+    }
+
+    private void getAllDishes(){
+        dishController.getAll().forEach(System.out::println);
+    }
+
+    private void findDishByName() {
+        System.out.println(dishController.findByName("pizza"));
+    }
+
+    private void insertDish(){
+        Dish dish = new Dish();
+        dish.setId(2);
+        dish.setName("aaa");
+        dish.setCategory(0);
+        dish.setPrice(55);
+        dish.setWeight(90);
+
+        dishController.insertDish(dish);
+    }
+
+    private void deleteDish(){
+        dishController.deleteDish(2);
+    }
+
+    private void getAllEmployee() {
+        employeeController.getAllEmployee().forEach(System.out::println);
+        System.out.println(employeeController.getEmployeeByName("Ann"));
+    }
+
+    private void insertEmployee() {
         Employee employee = new Employee();
         employee.setId(2);
         employee.setLastName("aaa");
@@ -29,14 +65,21 @@ public class Main {
         employee.setSalary(50000);
         employeeController.insertEmployee(employee);
 
-        employeeController.getAllEmployee().forEach(System.out::println);
+        getAllEmployee();
+    }
 
+    private void deleteEmployee() {
         employeeController.deleteEmployee(2);
 
-        employeeController.getAllEmployee().forEach(System.out::println);
+        getAllEmployee();
     }
+
 
     public void setEmployeeController(EmployeeController employeeController) {
         this.employeeController = employeeController;
+    }
+
+    public void setDishController(DishController dishController) {
+        this.dishController = dishController;
     }
 }

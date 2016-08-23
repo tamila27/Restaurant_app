@@ -1,6 +1,8 @@
 package com.goit.gojavaonline;
 
+import com.goit.gojavaonline.controllers.DishController;
 import com.goit.gojavaonline.controllers.EmployeeController;
+import com.goit.gojavaonline.model.JdbcDishDao;
 import com.goit.gojavaonline.model.JdbcEmployeeDao;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.context.annotation.Bean;
@@ -77,18 +79,35 @@ public class AppConfig {
     }
 
     @Bean
-    public EmployeeController employeeController(/*DataSourceTransactionManager txManager,*/ JdbcEmployeeDao employeeDao) {
+    public EmployeeController employeeController(JdbcEmployeeDao employeeDao) {
         EmployeeController employeeController = new EmployeeController();
         employeeController.setEmployeeDao(employeeDao);
-        //employeeController.setTxManager(txManager);
         return employeeController;
 
     }
 
     @Bean
-    public Main main( EmployeeController employeeController ){
+    public JdbcDishDao dishDao(ComboPooledDataSource dataSource ) {
+        JdbcDishDao jdbcDishDao = new JdbcDishDao();
+        jdbcDishDao.setDataSource(dataSource);
+        return jdbcDishDao;
+    }
+
+    @Bean
+    public DishController dishController(JdbcDishDao dishDao) {
+        DishController dishController = new DishController();
+        dishController.setDishDao(dishDao);
+        return dishController;
+
+    }
+
+    @Bean
+    public Main main( EmployeeController employeeController, DishController dishController ){
         Main main = new Main();
         main.setEmployeeController(employeeController);
+        main.setDishController(dishController);
         return main;
     }
+
+
 }

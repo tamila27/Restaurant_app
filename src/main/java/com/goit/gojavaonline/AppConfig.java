@@ -145,15 +145,31 @@ public class AppConfig {
     }
 
     @Bean
+    public JdbcStorageDao storageDao(ComboPooledDataSource dataSource ) {
+        JdbcStorageDao jdbcStorageDao = new JdbcStorageDao();
+        jdbcStorageDao.setDataSource(dataSource);
+        return jdbcStorageDao;
+    }
+
+    @Bean
+    public StorageController StorageController(JdbcStorageDao storageDao) {
+        StorageController storageController = new StorageController();
+        storageController.setStorageDao(storageDao);
+        return storageController;
+
+    }
+
+    @Bean
     public Main main(EmployeeController employeeController, DishController dishController,
                      MenuController menuController, OrdersController ordersController,
-                     PreparedDishController preparedDishController){
+                     PreparedDishController preparedDishController, StorageController storageController){
         Main main = new Main();
         main.setEmployeeController(employeeController);
         main.setDishController(dishController);
         main.setMenuController(menuController);
         main.setOrdersController(ordersController);
         main.setPreparedDishController(preparedDishController);
+        main.setStorageController(storageController);
         return main;
     }
 

@@ -13,6 +13,7 @@ public class Main {
     private MenuController menuController;
     private OrdersController ordersController;
     private PreparedDishController preparedDishController;
+    private StorageController storageController;
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
@@ -21,7 +22,31 @@ public class Main {
     }
 
     private void start() {
-        getAllPreparedDish();
+        getAllIngredientsFromStorage();
+    }
+
+    private void getAllIngredientsFromStorage() {
+        storageController.getAll().forEach(System.out::println);
+    }
+
+    private void getIngredientFromStorage() {
+        System.out.println(storageController.getIngredientFromStorage("potato"));
+    }
+
+    private void changeIngredientQuantity() {
+        storageController.changeIngredientQuantity(1, 88);
+    }
+
+    private void deleteIngredientFromStorage() {
+        storageController.deleteIngredientFromStorage(0);
+    }
+
+    private void insertIngredientToStorage() {
+        StorageIngredient storageIngredient = new StorageIngredient();
+        storageIngredient.setId(0);
+        storageIngredient.setIngredientId(4);
+        storageIngredient.setQuantity(100);
+        storageController.insertIngredientToStorage(storageIngredient);
     }
 
     private void getAllPreparedDish() {
@@ -166,5 +191,9 @@ public class Main {
 
     public void setPreparedDishController(PreparedDishController preparedDishController) {
         this.preparedDishController = preparedDishController;
+    }
+
+    public void setStorageController(StorageController storageController) {
+        this.storageController = storageController;
     }
 }

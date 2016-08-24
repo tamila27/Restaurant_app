@@ -1,4 +1,4 @@
-package com.goit.gojavaonline.model.jdbc;
+package com.goit.gojavaonline.model.dao;
 
 import com.goit.gojavaonline.model.Dish;
 import com.goit.gojavaonline.model.Menu;

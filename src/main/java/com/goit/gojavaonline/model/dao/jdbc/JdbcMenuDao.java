@@ -1,6 +1,8 @@
-package com.goit.gojavaonline.model;
+package com.goit.gojavaonline.model.dao.jdbc;
 
-import com.goit.gojavaonline.model.jdbc.MenuDao;
+import com.goit.gojavaonline.model.Dish;
+import com.goit.gojavaonline.model.Menu;
+import com.goit.gojavaonline.model.dao.MenuDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,7 +17,7 @@ import java.util.List;
  * Created by tamila on 8/23/16.
  */
 public class JdbcMenuDao implements MenuDao {
-    private static Logger LOGGER = LoggerFactory.getLogger(Employee.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(JdbcMenuDao.class);
 
     private DataSource dataSource;
 
@@ -125,23 +127,27 @@ public class JdbcMenuDao implements MenuDao {
         return result;
     }
 
-    //TODO
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Dish> getAllMenuDishes(int menuId) {
         List<Dish> result = new ArrayList<>();
-        /*List<Integer> dishIds = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM MENU_DISH where MENU_ID = ?");
+             PreparedStatement statement = connection.prepareStatement("select d.* from DISH d " +
+                     "inner join MENU_DISH md on md.`DISH_ID` = d.id" +
+                     " inner join MENU m on m.id = md.`MENU_ID`" +
+                     " where m.`id` = ?;")) {
+            connection.setAutoCommit(true);
+            statement.setInt(1, menuId);
+            ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                dishIds.add(resultSet.getInt("DISH_ID"));
+                result.add(getDish(resultSet));
 
             }
         } catch (SQLException e) {
             LOGGER.error("Exception occurred while connecting to DB ", e);
             new RuntimeException(e);
-        }*/
+        }
         return result;
     }
 

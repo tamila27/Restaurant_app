@@ -1,7 +1,7 @@
 package com.goit.gojavaonline.controllers;
 
 import com.goit.gojavaonline.model.Employee;
-import com.goit.gojavaonline.model.jdbc.EmployeeDao;
+import com.goit.gojavaonline.model.dao.EmployeeDao;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

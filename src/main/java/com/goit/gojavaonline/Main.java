@@ -3,9 +3,11 @@ package com.goit.gojavaonline;
 import com.goit.gojavaonline.controllers.DishController;
 import com.goit.gojavaonline.controllers.EmployeeController;
 import com.goit.gojavaonline.controllers.MenuController;
+import com.goit.gojavaonline.controllers.OrdersController;
 import com.goit.gojavaonline.model.Dish;
 import com.goit.gojavaonline.model.Employee;
 import com.goit.gojavaonline.model.Menu;
+import com.goit.gojavaonline.model.Order;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -15,6 +17,7 @@ public class Main {
     private EmployeeController employeeController;
     private DishController dishController;
     private MenuController menuController;
+    private OrdersController ordersController;
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
@@ -23,7 +26,41 @@ public class Main {
     }
 
     private void start() {
-        getAllMenu();
+        getOrders();
+    }
+
+    private void getOrders() {
+        ordersController.getOrders(false).forEach(System.out::println);
+    }
+
+    private void closeOrder() {
+        ordersController.closeOrder(0);
+    }
+
+    private void deleteOrder() {
+        ordersController.deleteOrder(2);
+    }
+
+    private void deleteDishFromOrder() {
+        ordersController.deleteDishFromOrder(1, 0);
+    }
+
+    private void insertDishInOrder() {
+        ordersController.insertDishInOrder(2, 2);
+    }
+
+    private void insertOrder() {
+        Order order = new Order();
+        order.setId(2);
+        order.setWaiterId(0);
+        order.setTableNum(1);
+        order.setOrderDate("2016-10-10");
+        order.setClosed(true);
+        ordersController.insertOrder(order);
+    }
+
+    private void getAllMenuDishes() {
+        menuController.getAllMenuDishes(0).forEach(System.out::println);
     }
 
     private void getAllMenu() {
@@ -112,5 +149,9 @@ public class Main {
 
     public void setMenuController(MenuController menuController) {
         this.menuController = menuController;
+    }
+
+    public void setOrdersController(OrdersController ordersController) {
+        this.ordersController = ordersController;
     }
 }

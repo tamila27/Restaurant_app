@@ -3,9 +3,11 @@ package com.goit.gojavaonline;
 import com.goit.gojavaonline.controllers.DishController;
 import com.goit.gojavaonline.controllers.EmployeeController;
 import com.goit.gojavaonline.controllers.MenuController;
-import com.goit.gojavaonline.model.JdbcDishDao;
-import com.goit.gojavaonline.model.JdbcEmployeeDao;
-import com.goit.gojavaonline.model.JdbcMenuDao;
+import com.goit.gojavaonline.controllers.OrdersController;
+import com.goit.gojavaonline.model.dao.jdbc.JdbcDishDao;
+import com.goit.gojavaonline.model.dao.jdbc.JdbcEmployeeDao;
+import com.goit.gojavaonline.model.dao.jdbc.JdbcMenuDao;
+import com.goit.gojavaonline.model.dao.jdbc.JdbcOrderDao;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -119,12 +121,28 @@ public class AppConfig {
     }
 
     @Bean
-    public Main main( EmployeeController employeeController, DishController dishController,
-                      MenuController menuController ){
+    public JdbcOrderDao orderDao(ComboPooledDataSource dataSource ) {
+        JdbcOrderDao jdbcOrderDao = new JdbcOrderDao();
+        jdbcOrderDao.setDataSource(dataSource);
+        return jdbcOrderDao;
+    }
+
+    @Bean
+    public OrdersController orderController(JdbcOrderDao orderDao) {
+        OrdersController orderController = new OrdersController();
+        orderController.setOrderDao(orderDao);
+        return orderController;
+
+    }
+
+    @Bean
+    public Main main(EmployeeController employeeController, DishController dishController,
+                     MenuController menuController, OrdersController ordersController){
         Main main = new Main();
         main.setEmployeeController(employeeController);
         main.setDishController(dishController);
         main.setMenuController(menuController);
+        main.setOrdersController(ordersController);
         return main;
     }
 

@@ -1,7 +1,8 @@
 package com.goit.gojavaonline.controllers;
 
+import com.goit.gojavaonline.model.Dish;
 import com.goit.gojavaonline.model.Menu;
-import com.goit.gojavaonline.model.jdbc.MenuDao;
+import com.goit.gojavaonline.model.dao.MenuDao;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -40,6 +41,10 @@ public class MenuController {
     @Transactional
     public List<Menu> getAll() {
         return menuDao.getAll();
+    }
+
+    public List<Dish> getAllMenuDishes(int menuId) {
+        return menuDao.getAllMenuDishes(menuId);
     }
 
     public void setMenuDao(MenuDao menuDao) {

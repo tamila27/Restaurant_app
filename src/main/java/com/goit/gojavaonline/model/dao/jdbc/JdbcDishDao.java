@@ -1,6 +1,7 @@
-package com.goit.gojavaonline.model;
+package com.goit.gojavaonline.model.dao.jdbc;
 
-import com.goit.gojavaonline.model.jdbc.DishDao;
+import com.goit.gojavaonline.model.Dish;
+import com.goit.gojavaonline.model.dao.DishDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class JdbcDishDao implements DishDao {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(Employee.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(JdbcDishDao.class);
 
     private DataSource dataSource;
 

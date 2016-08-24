@@ -1,7 +1,7 @@
 package com.goit.gojavaonline.controllers;
 
 import com.goit.gojavaonline.model.Dish;
-import com.goit.gojavaonline.model.jdbc.DishDao;
+import com.goit.gojavaonline.model.dao.DishDao;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

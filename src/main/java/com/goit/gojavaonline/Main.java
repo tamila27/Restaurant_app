@@ -1,13 +1,7 @@
 package com.goit.gojavaonline;
 
-import com.goit.gojavaonline.controllers.DishController;
-import com.goit.gojavaonline.controllers.EmployeeController;
-import com.goit.gojavaonline.controllers.MenuController;
-import com.goit.gojavaonline.controllers.OrdersController;
-import com.goit.gojavaonline.model.Dish;
-import com.goit.gojavaonline.model.Employee;
-import com.goit.gojavaonline.model.Menu;
-import com.goit.gojavaonline.model.Order;
+import com.goit.gojavaonline.controllers.*;
+import com.goit.gojavaonline.model.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -18,6 +12,7 @@ public class Main {
     private DishController dishController;
     private MenuController menuController;
     private OrdersController ordersController;
+    private PreparedDishController preparedDishController;
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
@@ -26,7 +21,21 @@ public class Main {
     }
 
     private void start() {
-        getOrders();
+        getAllPreparedDish();
+    }
+
+    private void getAllPreparedDish() {
+        preparedDishController.getAll().forEach(System.out::println);
+    }
+
+    private void insertPreparedDish() {
+        PreparedDish preparedDish = new PreparedDish();
+        preparedDish.setId(0);
+        preparedDish.setDishId(0);
+        preparedDish.setCookId(0);
+        preparedDish.setOrderId(0);
+        preparedDish.setDate("2016-1-1");
+        preparedDishController.insertPreparedDish(preparedDish);
     }
 
     private void getOrders() {
@@ -153,5 +162,9 @@ public class Main {
 
     public void setOrdersController(OrdersController ordersController) {
         this.ordersController = ordersController;
+    }
+
+    public void setPreparedDishController(PreparedDishController preparedDishController) {
+        this.preparedDishController = preparedDishController;
     }
 }

@@ -1,13 +1,7 @@
 package com.goit.gojavaonline;
 
-import com.goit.gojavaonline.controllers.DishController;
-import com.goit.gojavaonline.controllers.EmployeeController;
-import com.goit.gojavaonline.controllers.MenuController;
-import com.goit.gojavaonline.controllers.OrdersController;
-import com.goit.gojavaonline.model.dao.jdbc.JdbcDishDao;
-import com.goit.gojavaonline.model.dao.jdbc.JdbcEmployeeDao;
-import com.goit.gojavaonline.model.dao.jdbc.JdbcMenuDao;
-import com.goit.gojavaonline.model.dao.jdbc.JdbcOrderDao;
+import com.goit.gojavaonline.controllers.*;
+import com.goit.gojavaonline.model.dao.jdbc.*;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -136,13 +130,30 @@ public class AppConfig {
     }
 
     @Bean
+    public JdbcPreparedDishDao preparedDishDao(ComboPooledDataSource dataSource ) {
+        JdbcPreparedDishDao jdbcPreparedDishDao = new JdbcPreparedDishDao();
+        jdbcPreparedDishDao.setDataSource(dataSource);
+        return jdbcPreparedDishDao;
+    }
+
+    @Bean
+    public PreparedDishController preparedDishController(JdbcPreparedDishDao preparedDishDao) {
+        PreparedDishController preparedDishController = new PreparedDishController();
+        preparedDishController.setPreparedDishDao(preparedDishDao);
+        return preparedDishController;
+
+    }
+
+    @Bean
     public Main main(EmployeeController employeeController, DishController dishController,
-                     MenuController menuController, OrdersController ordersController){
+                     MenuController menuController, OrdersController ordersController,
+                     PreparedDishController preparedDishController){
         Main main = new Main();
         main.setEmployeeController(employeeController);
         main.setDishController(dishController);
         main.setMenuController(menuController);
         main.setOrdersController(ordersController);
+        main.setPreparedDishController(preparedDishController);
         return main;
     }
 

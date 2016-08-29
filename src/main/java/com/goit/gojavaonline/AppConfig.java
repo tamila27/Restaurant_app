@@ -6,6 +6,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
@@ -64,8 +65,6 @@ public class AppConfig {
             dataSource.setMaxPoolSize(Integer.valueOf(properties.getProperty("jdbc.max.connections")));
             dataSource.setAcquireIncrement(Integer.valueOf(properties.getProperty("jdbc.acquire.increment")));
         }
-
-
         return dataSource;
     }
 
@@ -173,5 +172,15 @@ public class AppConfig {
         return main;
     }
 
+    @Bean
+    public LocalSessionFactoryBean sessionFactory(ComboPooledDataSource dataSource) {
+        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+        sessionFactoryBean.setDataSource(dataSource);
+        sessionFactoryBean.setPackagesToScan("com.goit.gojavaonline.model");
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        sessionFactoryBean.setHibernateProperties(properties);
+        return sessionFactoryBean;
+    }
 
 }

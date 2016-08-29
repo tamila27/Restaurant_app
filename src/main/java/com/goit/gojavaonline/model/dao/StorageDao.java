@@ -13,5 +13,5 @@ public interface StorageDao {
     void changeIngredientQuantity(int id, float newQuantity);
     StorageIngredient getIngredientFromStorage(String name);
     List<StorageIngredient> getAll();
-    
+
 }

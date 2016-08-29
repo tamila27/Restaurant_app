@@ -1,15 +1,37 @@
 package com.goit.gojavaonline.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by tamila on 8/22/16.
  */
+@Entity
+@Table(name = "EMPLOYEE")
 public class Employee {
+
+    @Id
+    @Column(name = "ID")
     private int id;
+
+    @Column(name = "LAST_NAME")
     private String lastName;
+
+    @Column(name = "NAME")
     private String name;
+
+    @Column(name = "BIRTH_DATE")
     private String birthDate;
+
+    @Column(name = "PHONE")
     private String phone;
+
+    @Column(name = "POSITION")
     private int position;
+
+    @Column(name = "SALARY")
     private float salary;
 
     public int getId() {
